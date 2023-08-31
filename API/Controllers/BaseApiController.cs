@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers
 {
@@ -13,11 +7,8 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
-        private readonly DataContext _dataContext;
+       private IMediator? _mediator;
 
-        public BaseApiController(DataContext dataContext)
-        {
-            _dataContext = dataContext;
-        }
+       protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
     }
 }

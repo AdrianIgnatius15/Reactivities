@@ -1,9 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Gp6jNBtTXtpBZ/aKWAPiECfdmOLWgNdpGCUG1zD0sMeEATsC4nk24eErORg3RFibaLSiTxaNmm8Z8SVNnBDx/A==",
+  "dgSpecHash": "29VV/V6UzpS2aDFJKB8imzj5xT9sSWhGtSRgqL3hw0f0gnCf2GWlzgN4a933scP6lMIpTLPnPo+9VFfikBkyXA==",
   "success": true,
   "projectFilePath": "C:\\Users\\adria\\OneDrive\\Documents\\Coding Projects\\Projects\\Udemy Courses\\Reactivities\\Application\\Application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\adria\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\adria\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.10\\microsoft.data.sqlite.core.7.0.10.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.10\\microsoft.entityframeworkcore.7.0.10.nupkg.sha512",
     "C:\\Users\\adria\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.10\\microsoft.entityframeworkcore.abstractions.7.0.10.nupkg.sha512",
