@@ -1,8 +1,9 @@
 export interface Activity {
     id: string,
     title: string,
-    date: Date,
+    date: string,
     description: string,
     city: string,
-    venue: string
+    venue: string,
+    category: string
 }
