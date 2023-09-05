@@ -23,5 +23,6 @@ export type ActivityFormProps = {
      * mandatory
      */
     editMode : boolean,
-    handleCreateOrEditActivity: (activity : Activity) => void
+    handleCreateOrEditActivity: (activity : Activity) => void,
+    submitting: boolean
 }

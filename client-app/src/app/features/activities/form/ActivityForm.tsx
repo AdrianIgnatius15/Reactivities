@@ -9,7 +9,8 @@ export default function ActivityForm(props : ActivityFormProps) : JSX.Element{
         category: '',
         title: '',
         city: '',
-        date: '',
+        // date: '',
+        date: new Date(),
         description: '',
         venue: ''
     };
@@ -36,11 +37,11 @@ export default function ActivityForm(props : ActivityFormProps) : JSX.Element{
                 <Form.Input placeholder="Title" value={activity.title} onChange={handleInputOnChange} name="title" />
                 <Form.TextArea placeholder="Description" value={activity.description} onChange={handleInputOnChange} name="description" />
                 <Form.Input placeholder="Category" value={activity.category} onChange={handleInputOnChange} name="category" />
-                <Form.Input placeholder="Date" value={activity.date} onChange={handleInputOnChange} name="date" />
+                <Form.Input placeholder="Date" type="date" value={new Date(activity.date).toLocaleDateString()} onChange={handleInputOnChange} name="date" />
                 <Form.Input placeholder="City" value={activity.city} onChange={handleInputOnChange} name="city" />
                 <Form.Input placeholder="Venue" value={activity.venue} onChange={handleInputOnChange} name="venue" />
 
-                <Button floated="right" positive type="submit" content="Submit" />
+                <Button loading={props.submitting} floated="right" positive type="submit" content="Submit" />
                 <Button onClick={() => props.closeForm()} floated="right" color="grey" negative type="button" content="Cancel" />
             </Form>
         </Segment>

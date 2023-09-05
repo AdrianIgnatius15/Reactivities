@@ -51,4 +51,5 @@ export type ActivityDashboardProps = {
     handleFormClose : () => void,
     handleCreateOrEditActivity: (activity: Activity) => void,
     deleteActivity: (id : string) => void
+    submitting: boolean,
 }
