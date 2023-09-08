@@ -10,7 +10,7 @@ export default class ActivityStore {
     selectedActivity : Activity | undefined;
     editMode : boolean = false;
     loading : boolean = false;
-    loadingInitial : boolean = true;
+    loadingInitial : boolean = false;
 
     constructor() {
         // makeObservable(this, {
@@ -36,11 +36,11 @@ export default class ActivityStore {
     }
 
     loadActivities = async () => {
-
+        this.loadingInitial = true;
         try {
             const activities = await agent.Activities.list();
             for (const activity of activities) {
-                this.activityRegistry.set(activity.id, activity);
+                this.setActivity(activity);
             }
             this.setActivities(activities);
 
@@ -51,17 +51,39 @@ export default class ActivityStore {
         }
     }
 
+    loadActivity = async (id : string) : Promise<Activity | undefined> => {
+        let activity : Activity | undefined = this.getActivity(id);
+        if(activity) {
+            this.selectedActivity = activity;
+            return activity;
+        } else {
+            this.setLoadingInitial(true);
+            try {
+                activity = await agent.Activities.details(id);
+                runInAction(() => {
+                    this.setActivity(activity!);
+                    this.selectedActivity = activity;
+                });
+                this.setLoadingInitial(false);
+
+                return activity;
+            } catch (error) {
+                console.error(`${ActivityStore.name} error occured due to`, error);
+                this.setLoadingInitial(false);
+            }
+        }
+    }
+
+    private getActivity = (id : string) => {
+        return this.activityRegistry.get(id);
+    }
+
+    private setActivity = (activity : Activity) => this.activityRegistry.set(activity.id, activity);
+
     setLoadingInitial = (flag : boolean) => this.loadingInitial = flag;
     
     setActivities = (obtainedActivities : Activity[]) => 
         this.activities = JSON.parse(JSON.stringify(obtainedActivities));
-    
-    setSelectedActivity = (id : string) => {
-        // this.selectedActivity = this.activities.find(activity => activity.id === id);
-        this.selectedActivity = this.activityRegistry.get(id);
-    }
-    cancelSelectedActivity = () =>
-        this.selectedActivity = undefined;
     
     createActivity = async (activity : Activity) => {
         this.loading = true;
@@ -109,7 +131,6 @@ export default class ActivityStore {
             runInAction(() => {
                 // this.activities = [...this.activities.filter(a => a.id !== id)];
                 this.activityRegistry.delete(id);
-                if (this.selectedActivity?.id === id) this.cancelSelectedActivity();
                 this.loading = false;
             });
         } catch (error) {
@@ -117,11 +138,4 @@ export default class ActivityStore {
             runInAction(() => this.loading = false);
         }
     }
-    
-    openForm = (id? : string) => {
-        id ? this.setSelectedActivity(id) : this.cancelSelectedActivity();
-        this.editMode = true;
-    }
-
-    closeForm = () => this.editMode = false;
 }
