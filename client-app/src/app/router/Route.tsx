@@ -2,7 +2,7 @@ import { RouteObject, createBrowserRouter } from "react-router-dom";
 import App from "../layout/App";
 import ActivityDashboard from "../features/activities/dashboard/ActivityDashboard";
 import ActivityForm from "../features/activities/form/ActivityForm";
-import ActivityDetails from "../features/activities/dashboard/ActivityDetails";
+import ActivityDetails from "../features/activities/dashboard/details/ActivityDetails";
 
 export const Routes: RouteObject[] = [
     {
