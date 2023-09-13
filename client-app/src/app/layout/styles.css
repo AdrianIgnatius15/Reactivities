@@ -39,6 +39,9 @@ body {
 
 /*end home page styles*/
 
+.react-datepicker-wrapper {
+  width: 100%;
+}
 
 /*Background styling for the nav bar*/
 .ui.inverted.top.fixed.menu {
