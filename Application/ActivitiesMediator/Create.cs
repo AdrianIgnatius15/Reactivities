@@ -1,4 +1,5 @@
 using Domain;
+using FluentValidation;
 using MediatR;
 using Persistence;
 
@@ -6,12 +7,20 @@ namespace Application.ActivitiesMediator
 {
     public class CreateActivity
     {
-        public class CreateCommand : IRequest
+        public class CreateCommand : IRequest<Result<Unit>>
         {
             public Activity? Activity { get; set; }
         }
 
-        public class Handler : IRequestHandler<CreateCommand>
+        public class CommandValidator : AbstractValidator<CreateCommand>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Activity).SetValidator(new ActivityValidator()!);
+            }
+        }
+
+        public class Handler : IRequestHandler<CreateCommand, Result<Unit>>
         {
             private readonly DataContext _dataContext;
 
@@ -20,10 +29,14 @@ namespace Application.ActivitiesMediator
                 _dataContext = dataContext;
             }
 
-            public async Task Handle(CreateCommand request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(CreateCommand request, CancellationToken cancellationToken)
             {
                 await _dataContext.Activities.AddAsync(request.Activity!, cancellationToken);
-                await _dataContext.SaveChangesAsync();
+                var result = await _dataContext.SaveChangesAsync() > 0;
+
+                if (!result) return Result<Unit>.Failure("Failed to create activity");
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

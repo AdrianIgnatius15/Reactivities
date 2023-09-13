@@ -8,13 +8,13 @@ namespace Application.ActivitiesMediator
 {
     public class ActivityDetails
     {
-        public class QueryActivityDetails : IRequest<Activity>
+        public class QueryActivityDetails : IRequest<Result<Activity>>
         {
             public Guid Id { get; set; }
         }
     }
 
-    public class Handler : IRequestHandler<QueryActivityDetails, Activity>
+    public class Handler : IRequestHandler<QueryActivityDetails, Result<Activity>>
     {
         private readonly DataContext _dataContext;
 
@@ -23,9 +23,11 @@ namespace Application.ActivitiesMediator
             _dataContext = dataContext;
         }
 
-        public async Task<Activity> Handle(QueryActivityDetails request, CancellationToken cancellationToken)
+        public async Task<Result<Activity>> Handle(QueryActivityDetails request, CancellationToken cancellationToken)
         {
-            return await _dataContext.Activities.FirstOrDefaultAsync(activity => activity.Id.Equals(request.Id));
+            var activity = await _dataContext.Activities.FirstOrDefaultAsync(activity => activity.Id.Equals(request.Id));
+            
+            return Result<Activity>.Success(activity!);
         }
     }
 }

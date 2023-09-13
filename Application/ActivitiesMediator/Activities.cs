@@ -5,9 +5,9 @@ using Persistence;
 
 public class Activities
 {
-    public class QueryActivities : IRequest<List<Activity>> {  }
+    public class QueryActivities : IRequest<Result<List<Activity>>> {  }
 
-    public class Handler : IRequestHandler<QueryActivities, List<Activity>>
+    public class Handler : IRequestHandler<QueryActivities, Result<List<Activity>>>
     {
         private readonly DataContext _dataContext;
 
@@ -15,9 +15,9 @@ public class Activities
         {
             _dataContext = dataContext;
         }
-        public async Task<List<Activity>> Handle(QueryActivities request, CancellationToken cancellationToken)
+        public async Task<Result<List<Activity>>> Handle(QueryActivities request, CancellationToken cancellationToken)
         {
-            return await _dataContext.Activities.ToListAsync();
+            return Result<List<Activity>>.Success(await _dataContext.Activities.ToListAsync());
         }
     }
 }

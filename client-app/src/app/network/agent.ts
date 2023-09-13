@@ -1,6 +1,9 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { baseURL } from "../config/configuration";
 import { Activity } from "../models/activity";
+import { toast } from "react-toastify";
+import { Router } from "../router/Route";
+import { store } from "../stores/contextStore/storeContext";
 
 const sleepFakery = (delay : number) => {
     return new Promise((resolve) => {
@@ -11,13 +14,49 @@ const sleepFakery = (delay : number) => {
 axios.defaults.baseURL = baseURL;
 
 axios.interceptors.response.use(async response => {
-    try {
+    
         await sleepFakery(1000);
         return response;
-    } catch (error) {
-        console.log(error);
-        return Promise.reject(error);
+}, (error : AxiosError) => {
+    const { data, status, config } = error.response as AxiosResponse;
+    switch (status) {
+        case 400:
+            if(config.method === 'get' && Object.prototype.hasOwnProperty.call(data.errors, 'id')) {
+                Router.navigate('/not-found');
+            }
+
+            if(data?.errors) {
+                const modalStateError : string[] = [];
+                for (const key in data.errors) {
+                    if (data.errors[key]) {
+                        modalStateError.push(data.errors[key]);
+                    }
+                }
+
+                throw modalStateError.flat();
+            } else {
+                toast.error(data);
+            }
+            break;
+        case 401:
+            toast.error("Unauthorised");
+            break;
+        case 403:
+            toast.error("Forbidden");
+            break;
+        case 404:
+            Router.navigate('/not-found');
+            toast.error("Not Found");
+            break;
+        case 500:
+            store.commonStore.setServerError(data);
+            Router.navigate('/server-error');
+            break;
+        default:
+            break;
     }
+
+    return Promise.reject(error);
 });
 
 const responseBody = <T> (response : AxiosResponse<T>) => response.data;
