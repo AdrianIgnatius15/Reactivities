@@ -9,9 +9,7 @@ namespace API.DTO.CreateDto
         public string? Email { get; set; }
 
         [Required]
-        [RegularExpression("(?=.*\\d)(?=.*[a-z])(?=.[A-Z]).{4,8}$", ErrorMessage = "Password must be complex")]
-        [MinLength(4)]
-        [MaxLength(8)]
+        [RegularExpression("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$", ErrorMessage = "Password must be complex")]
         public string? Password { get; set; }
 
         [Required(ErrorMessage = "Display name is required")]

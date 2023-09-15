@@ -1,5 +1,6 @@
 export type MyTextInputProps = {
     placeholder : string,
     name : string,
-    label? : string
+    label? : string,
+    type? : string
 }

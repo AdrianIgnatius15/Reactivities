@@ -4,6 +4,8 @@ import { Activity } from "../models/activity";
 import { toast } from "react-toastify";
 import { Router } from "../router/Route";
 import { store } from "../stores/contextStore/storeContext";
+import { User } from "../models/user";
+import { Login } from "../models/login";
 
 const sleepFakery = (delay : number) => {
     return new Promise((resolve) => {
@@ -13,6 +15,16 @@ const sleepFakery = (delay : number) => {
 
 axios.defaults.baseURL = baseURL;
 
+axios.interceptors.request.use(config => {
+    const token = store.commonStore.token;
+    if (token) {
+        if(token && config.headers) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+    }
+
+    return config;
+})
 axios.interceptors.response.use(async response => {
     
         await sleepFakery(1000);
@@ -76,8 +88,15 @@ const Activities = {
     delete: (id : string) => request.delete(`/activities/${id}`)
 };
 
+const Account = {
+    current: () => request.get<User>("/account"),
+    login: (loginModel : Login) => request.post<User>('/account/login', loginModel),
+    register: (registerModal : Login) => request.post<User>("/account/register", registerModal)
+};
+
 const agent = {
-    Activities
+    Activities,
+    Account
 }
 
 export default agent;

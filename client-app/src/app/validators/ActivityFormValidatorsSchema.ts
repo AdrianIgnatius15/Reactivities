@@ -7,4 +7,4 @@ export const ActivityFormValidatorSchema = Yup.object({
     date: Yup.string().required("Date is required for the activity"),
     venue: Yup.string().required(),
     city: Yup.string().required()
-})
+});
