@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Application.Interfaces;
+using Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddCors(opt => {
 builder.Services.AddAutoMapper(typeof(MapperProfiles).Assembly);
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateActivity>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentityCore<AppUser>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.User.RequireUniqueEmail = true;
@@ -53,7 +56,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("isActivityHost", policy => 
+    {
+        policy.Requirements.Add(new IsHostRequirement());
+    });
+});
+builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 
 var app = builder.Build();
 
