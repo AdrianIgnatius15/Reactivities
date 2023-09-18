@@ -1,4 +1,4 @@
-import { Activity } from "../../../../models/activity";
+import { IActivity } from "../../../../models/activity";
 
 /**
  * ## Activity Form Component Properties

@@ -1,4 +1,4 @@
-import { Activity } from "../../../../../models/activity"
+import { IActivity } from "../../../../../models/interfaces/activity"
 
 export type ActivityListItemProps = {
     /**
@@ -6,5 +6,5 @@ export type ActivityListItemProps = {
      * The "Activity" data that needs to be displayed
      * @author Adrian Joseph
      */
-    activity : Activity
+    activity : IActivity
 }

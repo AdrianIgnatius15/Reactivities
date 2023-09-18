@@ -1,5 +1,5 @@
-import { Activity } from "../../../../../models/activity";
+import { IActivity } from "../../../../../models/activity";
 
 export type ActivityDetailedInfoProps = {
-    activity : Activity
+    activity : IActivity
 };

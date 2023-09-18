@@ -1,5 +1,5 @@
-import { Activity } from "../../../../../models/activity"
+import { IActivity } from "../../../../../models/interfaces/activity"
 
 export type ActivityDetailedHeaderProps = {
-    activity: Activity
+    activity: IActivity
 }
