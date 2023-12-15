@@ -1,9 +1,6 @@
-using Domain;
-using Microsoft.VisualBasic;
-
-namespace Application.Profiles
+namespace Application.DTO
 {
-    public class Profile
+    public class AttendeeDto
     {
         public string Username { get; set; } = string.Empty;
 
@@ -12,7 +9,5 @@ namespace Application.Profiles
         public string Bio { get; set; } = string.Empty;
 
         public string Image { get; set; } = string.Empty;
-
-        public ICollection<Photo> Photos { get; set; }
     }
 }
